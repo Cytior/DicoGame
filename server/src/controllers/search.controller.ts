@@ -2,7 +2,7 @@
 
 // import {inject} from '@loopback/core';
 
-import {get} from '@loopback/rest';
+import {get, param} from '@loopback/rest';
 import {
   Client,
   // Object that contains the type definitions of every API method
@@ -70,7 +70,8 @@ export class SearchController {
   constructor() {}
 
   @get('/search')
-  async hello(): Promise<string> {
+  async hello(@param.query.string('query') query: string): Promise<string> {
+    var cleanQuery = query.normalize("NFD").replace(/[^a-zA-Z]/g, "")
     const result = await client.search<SearchResponse<DicoEntry>>({
       index: 'dico_data',
       body: {
@@ -83,24 +84,10 @@ export class SearchController {
           }
         ],
         query: {
-          bool: {
-            filter: [
-              {
-                bool: {
-                  should: [
-                    {
-                      query_string: {
-                        fields: [
-                          "term"
-                        ],
-                        query: "Ab*"
-                      }
-                    }
-                  ],
-                  minimum_should_match: 1
-                }
-              }
-            ]
+          "prefix": {
+            "term.raw": {
+              "value": cleanQuery
+            }
           }
         }
       }

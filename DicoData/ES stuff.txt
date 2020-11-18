@@ -1,17 +1,32 @@
 PUT http://localhost:9200/dico_data
 {
-  "mappings": {
-    "properties": {
-      "term": {
-        "type": "text",
-        "fields": {
-          "raw": { 
-            "type":  "keyword"
-          }
-        }
-      }
-    }
-  }
+	"settings": {
+		"analysis": {
+			"normalizer": {
+				"my_normalizer": {
+					"type": "custom",
+					"char_filter": [],
+					"filter": [
+						"lowercase",
+						"asciifolding"
+					]
+				}
+			}
+		}
+	},
+	"mappings": {
+		"properties": {
+			"term": {
+				"type": "text",
+				"fields": {
+					"raw": {
+						"type": "keyword",
+						"normalizer": "my_normalizer"
+					}
+				}
+			}
+		}
+	}
 }
 
 POST http://localhost:9200/_bulk
