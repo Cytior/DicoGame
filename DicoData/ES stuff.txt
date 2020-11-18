@@ -16,3 +16,39 @@ PUT http://localhost:9200/dico_data
 
 POST http://localhost:9200/_bulk
 dicoToInsert stuff
+
+
+GET dico_data/_search
+{
+  "version": true,
+  "size": 500,
+  "sort": [
+    {
+      "term.raw": {
+        "order": "asc"
+      }
+    }
+  ],
+  "query": {
+    "bool": {
+      "must": [],
+      "filter": [
+        {
+          "bool": {
+            "should": [
+              {
+                "query_string": {
+                  "fields": [
+                    "term"
+                  ],
+                  "query": "Ab*"
+                }
+              }
+            ],
+            "minimum_should_match": 1
+          }
+        }
+      ]
+    }
+  }
+}
