@@ -1,0 +1,18 @@
+PUT http://localhost:9200/dico_data
+{
+  "mappings": {
+    "properties": {
+      "term": {
+        "type": "text",
+        "fields": {
+          "raw": { 
+            "type":  "keyword"
+          }
+        }
+      }
+    }
+  }
+}
+
+POST http://localhost:9200/_bulk
+dicoToInsert stuff
