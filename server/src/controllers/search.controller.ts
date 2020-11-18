@@ -70,7 +70,7 @@ export class SearchController {
   constructor() {}
 
   @get('/search')
-  async hello(@param.query.string('query') query: string): Promise<string> {
+  async hello(@param.query.string('query') query: string): Promise<Object> {
     var cleanQuery = query.normalize("NFD").replace(/[^a-zA-Z]/g, "")
     const result = await client.search<SearchResponse<DicoEntry>>({
       index: 'dico_data',
@@ -92,6 +92,6 @@ export class SearchController {
         }
       }
     });
-    return JSON.stringify(result.body.hits);
+    return result.body.hits;
   }
 }
