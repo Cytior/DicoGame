@@ -33,11 +33,6 @@ module.exports = {
     },
     {
       test: /\.less$/,
-      include: [
-        path.join(__dirname, 'semantic-themes'),
-        path.join(__dirname, 'src'),
-        path.join(__dirname, 'node_modules')
-      ],
       use: [
         {
           loader: MiniCssExtractPlugin.loader,

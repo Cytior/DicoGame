@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Boilerplate for MobX + React project with Typescript, ES6 compilation and hot code reloading",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "build": "webpack --progress"
   },
   "repository": {
     "type": "git",
@@ -23,12 +24,13 @@
   },
   "homepage": "http://mobxjs.github.com/mobx",
   "devDependencies": {
+    "@types/history": "4.7.6",
     "@types/react-dom": "^16.9.2",
     "@types/react-router-dom": "5.1.5",
-    "@types/history": "4.7.6",
     "awesome-typescript-loader": "^5.2.1",
     "typescript": "^3.6.4",
     "webpack": "^4.41.2",
+    "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.8.2"
   },
   "dependencies": {
@@ -55,6 +57,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-less": "^2.4.1",
     "semantic-ui-react": "^2.0.1",
+    "style-loader": "^2.0.0",
     "superagent": "^6.1.0",
     "url-loader": "^4.1.1"
   }
