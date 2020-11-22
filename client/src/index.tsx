@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {observable} from 'mobx';
 import {inject, observer, Provider} from 'mobx-react';
-import "../semantic.less";
+import '../semantic-themes/semantic.less'; 
 import { RouteComponentProps } from 'react-router';
 import { MainStore } from './stores/mainStore';
 import { createBrowserHistory } from 'history';

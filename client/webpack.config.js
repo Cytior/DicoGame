@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 
+var outPath = path.join(__dirname, './dist');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 var isProduction = false; //process.argv.indexOf('-p') >= 0;
@@ -13,12 +14,16 @@ module.exports = {
     './src/index'
   ],
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: outPath,
     filename: 'bundle.js',
-    publicPath: '/static/'
+    chunkFilename: '[name].[hash:5].bundle.js',
+    publicPath: '/'
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tsx']
+    extensions: ['.js', '.ts', '.tsx'],
+    alias: {
+      '../../theme.config$': path.join(__dirname, 'semantic-themes/theme.config')
+    }
   },
   module: {
     rules: [{
@@ -28,6 +33,11 @@ module.exports = {
     },
     {
       test: /\.less$/,
+      include: [
+        path.join(__dirname, 'semantic-themes'),
+        path.join(__dirname, 'src'),
+        path.join(__dirname, 'node_modules')
+      ],
       use: [
         {
           loader: MiniCssExtractPlugin.loader,
@@ -39,7 +49,7 @@ module.exports = {
         },
         {
           loader: 'css-loader',
-          query: {
+          options: {
             modules: true,
             sourceMap: !isProduction,
             importLoaders: 1
@@ -47,26 +57,18 @@ module.exports = {
         },
         {
           loader: 'postcss-loader',
+          ident: 'postcss',
           options: {
-            ident: 'postcss',
             sourceMap: !isProduction,
-            postcssOptions: {
-              plugins: [
-                require('postcss-import')({ addDependencyTo: webpack }),
-                require('postcss-url')(),
-                require('postcss-cssnext')(),
-                require('postcss-reporter')(),
-                require('postcss-browser-reporter')({
-                  disabled: isProduction
-                })
-              ]
-            }
           }
         },
         {
           loader: "less-loader", // compiles Less to CSS
           options: {
             sourceMap: !isProduction,
+            lessOptions: {
+              javascriptEnabled: true,
+            }
           }
         }]
     },
@@ -75,22 +77,22 @@ module.exports = {
     { test: /\.png$/, use: 'url-loader?limit=10000' },
     // this rule handles images
     {
-        test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
-        use: 'file-loader?name=[name].[ext]?[hash]'
+      test: /\.jpe?g$|\.gif$|\.ico$|\.png$|\.svg$/,
+      use: 'file-loader?name=[name].[ext]?[hash]'
     },
 
     // the following 3 rules handle font extraction
     {
-        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: 'url-loader?limit=10000&mimetype=application/font-woff'
     },
     {
-        test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loader: 'file-loader'
+      test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: 'file-loader'
     },
     {
-        test: /\.otf(\?.*)?$/,
-        use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
+      test: /\.otf(\?.*)?$/,
+      use: 'file-loader?name=/fonts/[name].  [ext]&mimetype=application/font-otf'
     }
     ]
   },

@@ -49,7 +49,7 @@ export class SearchMain extends React.Component<{ mainstore: any }, any> {
                                     }
                                 }} />
                         </div>
-                        <Button loading={this.getSearchStore().loading} style={{ marginLeft: "10px" }} onClick={this.onClickSearch}>Chercher</Button>
+                        <Button basic color='pink' loading={this.getSearchStore().loading} style={{ marginLeft: "10px" }} onClick={this.onClickSearch}>Chercher</Button>
                     </div>
                     <div style={{ width: "100%", display: "flex", flexDirection: "row", marginTop: "10px", flexWrap: "wrap", minHeight: "50px" }}>
                         {/* <Loader active={this.getSearchStore().loading} inline='centered' style={{zIndex: "0"}}>Loading...</Loader> */}
