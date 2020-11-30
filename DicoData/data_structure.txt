@@ -1,0 +1,9 @@
+Game : ID, Secret, StartedAt, State(Live, Ended), OwnerId, CurrentStepId
+
+Player : Id, GUID, Username, CreatedAt, LastActivity, State(Live, Ended), GameId, Score
+
+Step : Id, GameId, MasterPlayerId, Type(GameStart, ChooseWord, ValidateWord, WriteDef, Vote, Results), WordId, CreatedAt
+
+DefinitionProposal : Id, PlayerId, StepId, isOfficial, Content
+
+Vote : Id, PlayerId, StepId, DefinitionProposalId, isKnown => Gestion du ValidateWord + Vote
